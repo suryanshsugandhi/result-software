@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+var csv = require('csvtojson')
 
  
 // Database Configuration
@@ -75,6 +76,23 @@ router.post('/deleteStudent', (req, res)=>{
         });
     }
 });
+
+router.get('/csvthing', (req, res)=>{
+    csv()
+    .fromFile('./uploads/EI_1ST_SEM_2015BATCH.csv')
+    .then(function(jsonArrayObj){
+        for(jsonObj in jsonArrayObj){
+            for(field in jsonArrayObj[jsonObj]){
+                for(grade in gradeJSON){
+                    if(jsonArrayObj[jsonObj][field] == grade){
+                        jsonArrayObj[jsonObj][field] = gradeJSON[grade]
+                    }
+                }
+            }
+        }
+        console.log(jsonArrayObj)
+    })
+})
 
 
 module.exports = router
